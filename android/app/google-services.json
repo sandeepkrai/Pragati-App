@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "522553969696",
+    "project_id": "pragati-f34e4",
+    "storage_bucket": "pragati-f34e4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:522553969696:android:92200d31103789bf2dc045",
+        "android_client_info": {
+          "package_name": "com.example.hack"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-KFlauNvg3J5l289NRbqvAIdxXvbDmt8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
