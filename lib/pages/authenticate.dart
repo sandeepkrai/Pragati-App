@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hack/firebase/auth.dart';
+import 'package:hack/pages/home_page.dart';
 import 'package:rive/rive.dart';
 import '../constants/constant_colors.dart';
 import 'login_screen.dart';
@@ -45,6 +46,7 @@ class _ContentState extends State<Content> {
     _btnAnimatioController = OneShotAnimation("active", autoplay: false);
     super.initState();
   }
+
   TextEditingController phoneController = TextEditingController();
   bool isLoading = false;
   bool showOnboarding = true;
@@ -54,89 +56,89 @@ class _ContentState extends State<Content> {
     var height = MediaQuery.of(context).size.height;
     if (showOnboarding) {
       return Stack(
-          children: [
-            Positioned(
-              width: width * 1.7,
-              bottom: 200,
-              left: 100,
-              child: Image.asset("assets/Backgrounds/Spline.png"),
+        children: [
+          Positioned(
+            width: width * 1.7,
+            bottom: 200,
+            left: 100,
+            child: Image.asset("assets/Backgrounds/Spline.png"),
+          ),
+          Positioned.fill(
+              child: BackdropFilter(
+            filter: ImageFilter.blur(
+              sigmaX: 20,
+              sigmaY: 10,
             ),
-            Positioned.fill(
-                child: BackdropFilter(
-              filter: ImageFilter.blur(
-                sigmaX: 20,
-                sigmaY: 10,
-              ),
-              child: SizedBox(),
-            )),
-            const RiveAnimation.asset(
-              "assets/RiveAssets/shapes.riv",
-              fit: BoxFit.cover,
+            child: SizedBox(),
+          )),
+          const RiveAnimation.asset(
+            "assets/RiveAssets/shapes.riv",
+            fit: BoxFit.cover,
+          ),
+          Positioned.fill(
+              child: BackdropFilter(
+            filter: ImageFilter.blur(
+              sigmaX: 30,
+              sigmaY: 30,
             ),
-            Positioned.fill(
-                child: BackdropFilter(
-              filter: ImageFilter.blur(
-                sigmaX: 30,
-                sigmaY: 30,
-              ),
-              child: SizedBox(),
-            )),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: width * 0.08),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: 260,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Welcome to PRAGATI",
-                          style: TextStyle(
-                              fontSize: height * 0.05,
-                              fontFamily: "Poppins",
-                              height: 1.2,
-                              fontWeight: FontWeight.w600),
-                        ),
-                        SizedBox(
-                          height: height * 0.016,
-                        ),
-                        Text(
-                          "This app is designed to empower and support rural women by providing them with access to resources, education, and opportunities that can help them improve their lives and the lives of their families.",
-                          style: TextStyle(fontFamily: "Poppins", fontSize: 20),
-                        )
-                      ],
-                    ),
+            child: SizedBox(),
+          )),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: width * 0.08),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: 260,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Welcome to PRAGATI",
+                        style: TextStyle(
+                            fontSize: height * 0.05,
+                            fontFamily: "Poppins",
+                            height: 1.2,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      SizedBox(
+                        height: height * 0.016,
+                      ),
+                      Text(
+                        "This app is designed to empower and support rural women by providing them with access to resources, education, and opportunities that can help them improve their lives and the lives of their families.",
+                        style: TextStyle(fontFamily: "Poppins", fontSize: 20),
+                      )
+                    ],
                   ),
-                  Spacer(),
-                  Animatedbtn(
-                    btnAnimatioController: _btnAnimatioController,
-                    press: () {
-                      _btnAnimatioController.isActive = true;
-                      setState(() {
-                        showOnboarding = false;
-                      });
-                    },
-                  ),
-                  SizedBox(
-                    height: height * 0.016,
-                  ),
-                  Text(
-                      '"Empowering rural women is not just a matter of human rights, it\'s also crucial for sustainable development and economic growth."',
-                      style: TextStyle(
-                          fontFamily: "Poppins",
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600)),
-                  SizedBox(
-                    height: height * 0.016,
-                  ),
-                ],
-              ),
-            )
-          ],
-        );
-  } else {
+                ),
+                Spacer(),
+                Animatedbtn(
+                  btnAnimatioController: _btnAnimatioController,
+                  press: () {
+                    _btnAnimatioController.isActive = true;
+                    setState(() {
+                      showOnboarding = false;
+                    });
+                  },
+                ),
+                SizedBox(
+                  height: height * 0.016,
+                ),
+                Text(
+                    '"Empowering rural women is not just a matter of human rights, it\'s also crucial for sustainable development and economic growth."',
+                    style: TextStyle(
+                        fontFamily: "Poppins",
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600)),
+                SizedBox(
+                  height: height * 0.016,
+                ),
+              ],
+            ),
+          )
+        ],
+      );
+    } else {
       return SingleChildScrollView(
         child: Column(
           children: [
@@ -197,7 +199,7 @@ class _ContentState extends State<Content> {
               child: RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(
-                  text: 'By logging in, you accept our ',
+                  text: 'By logging in, you accept our terms and conditions!',
                   style: GoogleFonts.inter(
                     fontSize: height * 0.015,
                     color: Colors.black,
@@ -211,6 +213,9 @@ class _ContentState extends State<Content> {
             ),
             GestureDetector(
               onTap: () {
+                // Navigator.push(context, MaterialPageRoute(builder: (context) {
+                //   return HomePage_Main();
+                // }));
                 AuthServices()
                     .signInWithPhone("+91${phoneController.text}", context);
                 setState(() {
@@ -247,66 +252,66 @@ class _ContentState extends State<Content> {
             SizedBox(
               height: height * 0.038,
             ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 1, color: Colors.yellow),
-                  ),
-                  width: width * 0.4,
-                ),
-                Container(
-                  child: const Text("OR"),
-                  margin: const EdgeInsets.only(
-                    left: 10,
-                    right: 10,
-                  ),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 1, color: Colors.yellow),
-                  ),
-                  width: width * 0.4,
-                ),
-              ],
-            ),
-            SizedBox(
-              height: height * 0.038,
-            ),
-            Container(
-              width: width * 0.73,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: const Color.fromRGBO(217, 217, 217, 0.75),
-              ),
-              child: GestureDetector(
-                onTap: () {},
-                child: SizedBox(
-                  width: height * 0.317,
-                  height: height * 0.06,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      SvgPicture.asset(
-                        'assets/icons/icons8-whatsapp.svg',
-                        height: height * 0.045,
-                        width: height * 0.035,
-                      ),
-                      Text(
-                        "Sign Up with Whatsapp",
-                        style: GoogleFonts.lexend(
-                          fontWeight: FontWeight.w600,
-                          fontSize: height * 0.018,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+            // Row(
+            //   crossAxisAlignment: CrossAxisAlignment.center,
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: [
+            //     Container(
+            //       decoration: BoxDecoration(
+            //         border: Border.all(width: 1, color: Colors.yellow),
+            //       ),
+            //       width: width * 0.4,
+            //     ),
+            //     Container(
+            //       child: const Text("OR"),
+            //       margin: const EdgeInsets.only(
+            //         left: 10,
+            //         right: 10,
+            //       ),
+            //     ),
+            //     Container(
+            //       decoration: BoxDecoration(
+            //         border: Border.all(width: 1, color: Colors.yellow),
+            //       ),
+            //       width: width * 0.4,
+            //     ),
+            //   ],
+            // ),
+            // SizedBox(
+            //   height: height * 0.038,
+            // ),
+            // Container(
+            //   width: width * 0.73,
+            //   decoration: BoxDecoration(
+            //     borderRadius: BorderRadius.circular(15),
+            //     color: const Color.fromRGBO(217, 217, 217, 0.75),
+            //   ),
+            //   child: GestureDetector(
+            //     onTap: () {},
+            //     child: SizedBox(
+            //       width: height * 0.317,
+            //       height: height * 0.06,
+            //       child: Row(
+            //         mainAxisAlignment: MainAxisAlignment.spaceAround,
+            //         children: [
+            //           SvgPicture.asset(
+            //             'assets/icons/icons8-whatsapp.svg',
+            //             height: height * 0.045,
+            //             width: height * 0.035,
+            //           ),
+            //           Text(
+            //             "Sign Up with Whatsapp",
+            //             style: GoogleFonts.lexend(
+            //               fontWeight: FontWeight.w600,
+            //               fontSize: height * 0.018,
+            //               color: Colors.black,
+            //             ),
+            //           ),
+            //         ],
+            //       ),
+            //     ),
+            //   ),
+            // ),
             SizedBox(
               height: height * 0.065,
             ),
@@ -338,6 +343,7 @@ class _ContentState extends State<Content> {
     }
   }
 }
+
 class Animatedbtn extends StatelessWidget {
   const Animatedbtn({
     super.key,

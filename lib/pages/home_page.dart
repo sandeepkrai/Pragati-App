@@ -9,6 +9,7 @@ import 'package:hack/firebase/db.dart';
 import 'package:hack/harsh/lib/providers/cart_provider.dart';
 import 'package:hack/harsh/lib/screen/home/home_page.dart';
 import 'package:hack/pages/Users_Profile.dart';
+import 'package:hack/pages/coming_soon.dart';
 import 'package:hack/pages/home.dart';
 import 'package:hack/pages/profile.dart';
 import 'package:hack/pages/profile_setup.dart';
@@ -42,6 +43,8 @@ class _HomePage_MainState extends State<HomePage_Main> {
     switch (index) {
       case 1:
         {
+          activities.insert(activities.length, "Visited Stores");
+          setState(() {});
           final cart = Provider.of<Cart>(context, listen: false);
 
           await cart.storeAllItems();
@@ -54,22 +57,37 @@ class _HomePage_MainState extends State<HomePage_Main> {
         break;
       case 2:
         {
+          activities.insert(activities.length, "Visited Courses Page");
+          setState(() {});
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => HomePage_Course()),
           );
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(builder: (context) => ComingSoonPage()),
+          // );
         }
         break;
       case 3:
         {
+          activities.insert(activities.length, "Visited Community Page");
+          setState(() {});
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => MainPage()),
           );
+
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(builder: (context) => ComingSoonPage()),
+          // );
         }
         break;
       case 4:
         {
+          activities.insert(activities.length, "Visited Finance Page");
+          setState(() {});
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => financeHomepage()),
@@ -79,18 +97,12 @@ class _HomePage_MainState extends State<HomePage_Main> {
   }
 
   final List<Pair<String, int>> features = [
-    Pair('Feature1', 0),
-    Pair('Feature2', 1),
-    Pair('Feature3', 2),
+    Pair('FOMO Pvt. Ltd.', 0),
+    Pair('XYZ Ltd.', 1),
+    Pair('Baylink.in', 2),
   ];
 
-  final List<String> activities = [
-    'Activity 1',
-    'Activity 2',
-    'Activity 3',
-    'Activity 4',
-    'Activity 5',
-  ];
+  final List<String> activities = [];
   final List<Friend> friends = [
     Friend(name: 'John Doe', imageUrl: 'https://picsum.photos/id/237/200/300'),
     Friend(name: 'Jane Doe', imageUrl: 'https://picsum.photos/id/238/200/300'),
@@ -173,25 +185,30 @@ class _HomePage_MainState extends State<HomePage_Main> {
                           ),
                         ),
                       ),
-                      Expanded(
-                        child: ListView.builder(
-                          itemCount: activities.length,
-                          itemBuilder: (context, index) {
-                            return ListTile(
-                              title: Text(activities[index]),
-                              subtitle: Text('Today'),
-                              leading: CircleAvatar(
-                                backgroundColor:
-                                    Color.fromRGBO(206, 111, 89, 1),
-                                child: Text((index + 1).toString()),
+                      activities.length > 0
+                          ? Expanded(
+                              child: ListView.builder(
+                                itemCount: activities.length,
+                                itemBuilder: (context, index) {
+                                  return ListTile(
+                                    title: Text(activities[
+                                        activities.length - 1 - index]),
+                                    subtitle: Text('Today'),
+                                    leading: CircleAvatar(
+                                      backgroundColor:
+                                          Color.fromRGBO(206, 111, 89, 1),
+                                      child: Text((index + 1).toString()),
+                                    ),
+                                    onTap: () {
+                                      // Open activity detail page
+                                    },
+                                  );
+                                },
                               ),
-                              onTap: () {
-                                // Open activity detail page
-                              },
-                            );
-                          },
-                        ),
-                      ),
+                            )
+                          : Container(
+                              child: Text("No Recent Activity!!"),
+                            ),
                       SizedBox(
                         height: 20,
                       ),
@@ -314,21 +331,21 @@ Widget _buildFeatureCard(String feature, int index) {
   List<Map<String, String>> items = [
     {
       'image':
-          'https://static.businessworld.in/article/article_extra_large_image/1615186282_J8GCFG_Women_entrepreneur_Nino_.jpg',
-      'title': 'Title 1',
-      'description': 'Description 1'
+          'https://media.licdn.com/dms/image/D4D12AQGlJXVjrRVQHA/article-cover_image-shrink_600_2000/0/1704220908258?e=2147483647&v=beta&t=1MRgNEJbhv-1h0L5w0bwIW6nRZxPwFM-5hDFpMMPnWI',
+      'title': 'Fomo Pvt. Ltd.',
+      'description': 'Founded by Sandeep Rai'
+    },
+    {
+      'image':
+          'https://theacademicinsights.com/wp-content/uploads/2021/03/women-empowerment-in-india.jpg',
+      'title': 'Baylink.in',
+      'description': 'Business Networking Platform'
     },
     {
       'image':
           'https://static.businessworld.in/article/article_extra_large_image/1615186282_J8GCFG_Women_entrepreneur_Nino_.jpg',
-      'title': 'Title 2',
-      'description': 'Description 2'
-    },
-    {
-      'image':
-          'https://static.businessworld.in/article/article_extra_large_image/1615186282_J8GCFG_Women_entrepreneur_Nino_.jpg',
-      'title': 'Title 3',
-      'description': 'Description 3'
+      'title': 'Nino Pvt. Ltd.',
+      'description': 'Founded by Nino'
     },
   ];
 
@@ -346,7 +363,7 @@ Widget _buildFeatureCard(String feature, int index) {
               width: 300,
               child: Image.network(
                 items[index]['image']!,
-                fit: BoxFit.cover,
+                fit: BoxFit.fill,
               ),
             ),
             SizedBox(height: 10),

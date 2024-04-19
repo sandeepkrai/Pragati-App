@@ -9,12 +9,34 @@ import 'package:hack/pages/home_page.dart';
 import 'package:provider/provider.dart';
 import 'package:hack/firebase_options.dart';
 import 'harsh/lib/providers/cart_provider.dart';
+import 'firebase_options.dart';
+// FlutterFire's Firebase Cloud Messaging plugin
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  // TODO: Request permission
+  final messaging = FirebaseMessaging.instance;
+
+  final settings = await messaging.requestPermission(
+    alert: true,
+    announcement: false,
+    badge: true,
+    carPlay: false,
+    criticalAlert: false,
+    provisional: false,
+    sound: true,
+  );
+
+  print('Permission granted: ${settings.authorizationStatus}');
+
+  String? token = await messaging.getToken();
+  print('Registration Token=$token');
+
   runApp(const MyApp());
 }
 
@@ -26,7 +48,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider.value(value: Data(),),
+        ChangeNotifierProvider.value(
+          value: Data(),
+        ),
         ChangeNotifierProvider.value(value: Cart()),
         StreamProvider<User?>(
           create: (context) {
@@ -53,6 +77,10 @@ class Wrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     User? user = Provider.of(context);
+
+    // return const Authenticate();
+
+    // To-Do: Uncomment for production
     if (user == null) {
       return const Authenticate();
     } else {
